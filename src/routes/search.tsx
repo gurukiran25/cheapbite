@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { SearchBar } from "@/components/SearchBar";
 import { FoodCard } from "@/components/FoodCard";
 import { didYouMean, highlight, searchRestaurants, smartSearch } from "@/lib/search";
-import { PLATFORMS } from "@/data/mockData";
+import { PLATFORMS, computeFinal } from "@/data/mockData";
 import { Sparkles, Store } from "lucide-react";
 
 const searchSchema = z.object({ q: z.string().optional().default("") });
