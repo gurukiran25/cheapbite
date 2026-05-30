@@ -33,12 +33,16 @@ export type Offer = {
   itemName: string;
   basePrice: number;
   deliveryFee: number;
+  platformFee: number;
   discountPct: number;
   couponCode?: string;
   etaMins: number;
   rating: number;
+  reviewCount: number;
   isVeg: boolean;
   distanceKm: number;
+  weightG: number;
+  updatedAgoMins: number;
 };
 
 export type FoodItem = {
