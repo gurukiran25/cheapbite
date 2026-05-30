@@ -37,7 +37,8 @@ export const Route = createFileRoute("/food/$slug")({
 });
 
 function FoodPage() {
-  const food = Route.useLoaderData();
+  const { slug } = Route.useParams();
+  const food = findFood(slug)!;
   const [sort, setSort] = useState<SortKey>("price");
   const [diet, setDiet] = useState<DietKey>("all");
 
