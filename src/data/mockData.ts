@@ -336,9 +336,17 @@ export const FOOD_ITEMS: FoodItem[] = [
 
 export function computeFinal(o: Offer) {
   const discounted = Math.round(o.basePrice * (1 - o.discountPct / 100));
-  const final = discounted + o.deliveryFee;
-  const savings = o.basePrice + o.deliveryFee - final;
-  return { discounted, final, savings };
+  const discountAmt = o.basePrice - discounted;
+  const final = discounted + o.deliveryFee + o.platformFee;
+  const sticker = o.basePrice + o.deliveryFee + o.platformFee;
+  const savings = sticker - final;
+  return { discounted, discountAmt, final, sticker, savings };
+}
+
+/** ₹ per 100 g — lower is better value. */
+export function valueScore(o: Offer) {
+  const { final } = computeFinal(o);
+  return +(final / (o.weightG / 100)).toFixed(1);
 }
 
 export function findFood(slug: string) {
