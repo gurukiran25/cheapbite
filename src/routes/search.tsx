@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { SearchBar } from "@/components/SearchBar";
 import { FoodCard } from "@/components/FoodCard";
-import { searchFoods } from "@/data/mockData";
+import { smartSearch } from "@/lib/search";
 import { z } from "zod";
 
 const searchSchema = z.object({ q: z.string().optional().default("") });
