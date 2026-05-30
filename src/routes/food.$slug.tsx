@@ -58,6 +58,7 @@ function FoodPage() {
   const bestId = byPrice[0]?.o.id;
   const worstFinal = byPrice[byPrice.length - 1]?.final ?? 0;
   const maxSavings = worstFinal - (byPrice[0]?.final ?? 0);
+  const bestValueId = [...enriched].sort((a, b) => valueScore(a.o) - valueScore(b.o))[0]?.o.id;
 
   return (
     <div className="min-h-screen bg-background">
@@ -72,7 +73,10 @@ function FoodPage() {
             <div className="grid h-20 w-20 shrink-0 place-items-center rounded-2xl bg-accent text-5xl">{food.emoji}</div>
             <div className="min-w-0 flex-1">
               <h1 className="font-display text-2xl font-bold leading-tight">{food.name}</h1>
-              <p className="mt-1 text-sm text-muted-foreground">Comparing {food.offers.length} platforms near Hostel Block C</p>
+              <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-success" />
+                Live · {food.offers.length} platforms near Hostel Block C
+              </p>
               {maxSavings > 0 && (
                 <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-success/10 px-3 py-1 text-xs font-bold text-success">
                   💰 Save up to ₹{maxSavings} by picking the right app
@@ -80,6 +84,37 @@ function FoodPage() {
               )}
             </div>
           </div>
+
+          {/* Quick comparison table */}
+          {byPrice.length > 1 && (
+            <div className="mt-4 overflow-hidden rounded-2xl border border-border">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-muted/60 text-[10px] uppercase tracking-wider text-muted-foreground">
+                  <tr>
+                    <th className="px-3 py-2">App</th>
+                    <th className="px-2 py-2 text-right">Item</th>
+                    <th className="px-2 py-2 text-right">Delivery</th>
+                    <th className="px-2 py-2 text-right">Fee</th>
+                    <th className="px-3 py-2 text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {byPrice.map(({ o, final, discounted }) => (
+                    <tr
+                      key={o.id}
+                      className={`border-t border-border ${o.id === bestId ? "bg-primary/5 font-semibold" : ""}`}
+                    >
+                      <td className="px-3 py-2">{o.restaurant.split(" ")[0]} <span className="text-muted-foreground">· {o.platformId}</span></td>
+                      <td className="px-2 py-2 text-right">₹{discounted}</td>
+                      <td className="px-2 py-2 text-right">₹{o.deliveryFee}</td>
+                      <td className="px-2 py-2 text-right">₹{o.platformFee}</td>
+                      <td className={`px-3 py-2 text-right ${o.id === bestId ? "text-primary" : ""}`}>₹{final}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
         <div className="mt-5">
@@ -97,6 +132,7 @@ function FoodPage() {
               key={o.id}
               offer={o}
               isBest={o.id === bestId}
+              isBestValue={o.id === bestValueId && o.id !== bestId}
               savingsVsWorst={worstFinal - final}
             />
           ))}
