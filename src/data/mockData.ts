@@ -64,20 +64,28 @@ const makeOffers = (
   seed: number,
   restaurants: Partial<Record<string, string>>,
 ): Offer[] =>
-  PLATFORMS.filter((p) => restaurants[p.id]).map((p, i) => ({
-    id: `${itemName}-${p.id}`,
-    restaurant: restaurants[p.id]!,
-    platformId: p.id,
-    itemName,
-    basePrice: v(basePrice, seed + i, 60),
-    deliveryFee: [0, 19, 25, 29, 35, 39][((seed + i) % 6 + 6) % 6],
-    discountPct: [0, 10, 15, 20, 25, 30, 40, 50][((seed + i * 3) % 8 + 8) % 8],
-    couponCode: i % 2 === 0 ? ["WELCOME50", "STUDENT20", "HOSTEL15", "FLAT30", "CAMPUS25"][((seed + i) % 5 + 5) % 5] : undefined,
-    etaMins: 20 + ((seed + i * 7) % 30),
-    rating: 3.8 + ((seed + i * 5) % 12) / 10,
-    isVeg,
-    distanceKm: 0.8 + ((seed + i * 4) % 35) / 10,
-  }));
+  PLATFORMS.filter((p) => restaurants[p.id]).map((p, i) => {
+    const s = seed + i;
+    const weightBase = Math.round(basePrice * 1.6);
+    return {
+      id: `${itemName}-${p.id}`,
+      restaurant: restaurants[p.id]!,
+      platformId: p.id,
+      itemName,
+      basePrice: v(basePrice, s, 60),
+      deliveryFee: [0, 19, 25, 29, 35, 39][((s) % 6 + 6) % 6],
+      platformFee: [3, 5, 6, 7, 9, 12][((s * 2) % 6 + 6) % 6],
+      discountPct: [0, 10, 15, 20, 25, 30, 40, 50][((seed + i * 3) % 8 + 8) % 8],
+      couponCode: i % 2 === 0 ? ["WELCOME50", "STUDENT20", "HOSTEL15", "FLAT30", "CAMPUS25"][((s) % 5 + 5) % 5] : undefined,
+      etaMins: 20 + ((seed + i * 7) % 30),
+      rating: 3.8 + ((seed + i * 5) % 12) / 10,
+      reviewCount: 120 + ((s * 37) % 4800),
+      isVeg,
+      distanceKm: 0.8 + ((seed + i * 4) % 35) / 10,
+      weightG: weightBase + ((s * 13) % 220) - 80,
+      updatedAgoMins: 1 + ((s * 7) % 14),
+    };
+  });
 
 export const FOOD_ITEMS: FoodItem[] = [
   {
