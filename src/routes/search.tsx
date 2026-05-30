@@ -97,6 +97,23 @@ function SearchPage() {
           </div>
         )}
 
+        <div className="no-scrollbar mt-2 flex gap-2 overflow-x-auto pb-1">
+          {budgets.map((b) => (
+            <button
+              key={b.label}
+              onClick={() => setBudget(b.v)}
+              className={`whitespace-nowrap rounded-full border px-3.5 py-1.5 text-xs font-semibold transition ${
+                budget === b.v
+                  ? "border-success bg-success text-success-foreground"
+                  : "border-border bg-card text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {b.label}
+            </button>
+          ))}
+        </div>
+
+
         {restos.length > 0 && q && (
           <section className="mt-5">
             <h2 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground">
