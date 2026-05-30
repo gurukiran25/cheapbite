@@ -61,6 +61,26 @@ function Home() {
       </section>
 
       <main className="mx-auto max-w-6xl space-y-10 px-4 pb-20">
+        {/* Trust strip */}
+        <section className="-mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {[
+            { icon: IndianRupee, label: "₹2,43,712", sub: "saved this month" },
+            { icon: ShieldCheck, label: "15 apps", sub: "compared live" },
+            { icon: Timer, label: "< 2 min", sub: "prices refreshed" },
+            { icon: TrendingUp, label: "12,800+", sub: "students saving" },
+          ].map((t, i) => (
+            <div key={i} className="flex items-center gap-2 rounded-2xl border border-border bg-card p-3 shadow-card">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary/10 text-primary">
+                <t.icon className="h-4 w-4" />
+              </span>
+              <div className="leading-tight">
+                <p className="font-display text-sm font-bold">{t.label}</p>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{t.sub}</p>
+              </div>
+            </div>
+          ))}
+        </section>
+
         {recent.length > 0 && (
           <section>
             <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-bold">
@@ -81,12 +101,78 @@ function Home() {
           </section>
         )}
 
+        {/* Today's best deals */}
+        <section>
+          <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-bold">
+            <Zap className="h-4 w-4 text-primary" /> Today's best deals
+          </h2>
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {FOOD_ITEMS.slice(0, 6)
+              .map((f) => {
+                const best = f.offers
+                  .map((o) => ({ o, ...computeFinal(o) }))
+                  .sort((a, b) => a.final - b.final)[0];
+                const worst = f.offers
+                  .map((o) => computeFinal(o).final)
+                  .sort((a, b) => b - a)[0];
+                return { f, best, save: worst - best.final };
+              })
+              .sort((a, b) => b.save - a.save)
+              .slice(0, 6)
+              .map(({ f, best, save }) => {
+                const p = PLATFORMS.find((x) => x.id === best.o.platformId)!;
+                return (
+                  <Link
+                    key={f.slug}
+                    to="/food/$slug"
+                    params={{ slug: f.slug }}
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 shadow-card transition hover:-translate-y-0.5 hover:shadow-glow"
+                  >
+                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent text-2xl">{f.emoji}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold">{f.name}</p>
+                      <p className="truncate text-[11px] text-muted-foreground">
+                        cheapest on <span className="font-semibold" style={{ color: p.color }}>{p.name}</span>
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-display text-base font-black">₹{best.final}</p>
+                      {save > 0 && <p className="text-[10px] font-bold text-success">Save ₹{save}</p>}
+                    </div>
+                  </Link>
+                );
+              })}
+          </div>
+        </section>
+
         <section>
           <h2 className="mb-3 flex items-center gap-2 font-display text-lg font-bold">
             <Flame className="h-4 w-4 text-primary" /> Trending in your hostel
           </h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {trending.map((f) => <FoodCard key={f.slug} food={f} />)}
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section>
+          <h2 className="mb-3 font-display text-lg font-bold">How it works</h2>
+          <div className="grid gap-3 sm:grid-cols-4">
+            {[
+              { icon: Search, title: "Search a dish", body: "Type any food — biryani, momos, dosa." },
+              { icon: ShieldCheck, title: "We compare 15 apps", body: "Item, delivery and platform fees." },
+              { icon: Zap, title: "See the cheapest", body: "Best deal & best value, side by side." },
+              { icon: IndianRupee, title: "Save ₹30–₹80/order", body: "Order on the app you already use." },
+            ].map((s, i) => (
+              <div key={i} className="rounded-2xl border border-border bg-card p-4 shadow-card">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-warm text-primary-foreground">
+                  <s.icon className="h-4 w-4" />
+                </span>
+                <p className="mt-3 text-[10px] font-bold uppercase tracking-widest text-primary">Step {i + 1}</p>
+                <p className="font-display text-sm font-bold">{s.title}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{s.body}</p>
+              </div>
+            ))}
           </div>
         </section>
 
