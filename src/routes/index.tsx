@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { SearchBar } from "@/components/SearchBar";
 import { FoodCard } from "@/components/FoodCard";
-import { FOOD_ITEMS, PLATFORMS } from "@/data/mockData";
-import { Flame, Sparkles, TrendingUp } from "lucide-react";
+import { FOOD_ITEMS, PLATFORMS, computeFinal } from "@/data/mockData";
+import { Flame, IndianRupee, Search, ShieldCheck, Sparkles, Timer, TrendingUp, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
