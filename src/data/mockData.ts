@@ -185,16 +185,6 @@ export function computeFinal(o: Offer) {
   return { discounted, final, savings };
 }
 
-export function searchFoods(q: string): FoodItem[] {
-  const query = q.trim().toLowerCase();
-  if (!query) return FOOD_ITEMS;
-  const tokens = query.split(/\s+/);
-  return FOOD_ITEMS.filter((f) => {
-    const hay = `${f.name} ${f.category}`.toLowerCase();
-    return tokens.every((t) => hay.includes(t));
-  });
-}
-
 export function findFood(slug: string) {
   return FOOD_ITEMS.find((f) => f.slug === slug);
 }

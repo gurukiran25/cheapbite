@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { SearchBar } from "@/components/SearchBar";
 import { FoodCard } from "@/components/FoodCard";
-import { searchFoods } from "@/data/mockData";
+import { smartSearch } from "@/lib/search";
 import { z } from "zod";
 
 const searchSchema = z.object({ q: z.string().optional().default("") });
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/search")({
 
 function SearchPage() {
   const { q } = Route.useSearch();
-  const results = searchFoods(q);
+  const results = smartSearch(q).map((r) => r.food);
   return (
     <div className="min-h-screen bg-background">
       <Header />
