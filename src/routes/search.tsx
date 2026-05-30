@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { SearchBar } from "@/components/SearchBar";
 import { FoodCard } from "@/components/FoodCard";
 import { didYouMean, highlight, searchRestaurants, smartSearch } from "@/lib/search";
-import { PLATFORMS } from "@/data/mockData";
+import { PLATFORMS, computeFinal } from "@/data/mockData";
 import { Sparkles, Store } from "lucide-react";
 
 const searchSchema = z.object({ q: z.string().optional().default("") });
@@ -26,17 +26,30 @@ type Cat = "All" | "Veg" | "Non-Veg" | "Dessert" | "Beverage";
 function SearchPage() {
   const { q } = Route.useSearch();
   const [cat, setCat] = useState<Cat>("All");
+  const [budget, setBudget] = useState<number | null>(null);
 
   const ranked = useMemo(() => smartSearch(q), [q]);
   const restos = useMemo(() => searchRestaurants(q), [q]);
   const suggestion = useMemo(() => didYouMean(q), [q]);
 
+  const cheapestOf = (food: typeof ranked[number]["food"]) =>
+    Math.min(...food.offers.map((o) => computeFinal(o).final));
+
   const filtered = useMemo(
-    () => ranked.filter((r) => cat === "All" || r.food.category === cat),
-    [ranked, cat],
+    () =>
+      ranked
+        .filter((r) => cat === "All" || r.food.category === cat)
+        .filter((r) => budget == null || cheapestOf(r.food) <= budget),
+    [ranked, cat, budget],
   );
 
   const cats: Cat[] = ["All", "Veg", "Non-Veg", "Dessert", "Beverage"];
+  const budgets: { label: string; v: number | null }[] = [
+    { label: "Any ₹", v: null },
+    { label: "Under ₹100", v: 100 },
+    { label: "Under ₹150", v: 150 },
+    { label: "Under ₹200", v: 200 },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -83,6 +96,23 @@ function SearchPage() {
             })}
           </div>
         )}
+
+        <div className="no-scrollbar mt-2 flex gap-2 overflow-x-auto pb-1">
+          {budgets.map((b) => (
+            <button
+              key={b.label}
+              onClick={() => setBudget(b.v)}
+              className={`whitespace-nowrap rounded-full border px-3.5 py-1.5 text-xs font-semibold transition ${
+                budget === b.v
+                  ? "border-success bg-success text-success-foreground"
+                  : "border-border bg-card text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {b.label}
+            </button>
+          ))}
+        </div>
+
 
         {restos.length > 0 && q && (
           <section className="mt-5">
