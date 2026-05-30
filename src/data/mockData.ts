@@ -4,7 +4,7 @@
 export type Platform = {
   id: string;
   name: string;
-  color: string; // tailwind-safe hex (used inline only for brand chip)
+  color: string;
   rating: number;
 };
 
@@ -14,6 +14,16 @@ export const PLATFORMS: Platform[] = [
   { id: "eatsure", name: "EatSure", color: "#1FA463", rating: 4.1 },
   { id: "dominos", name: "Domino's", color: "#0078AE", rating: 4.4 },
   { id: "mcd", name: "McDonald's", color: "#FFC72C", rating: 4.0 },
+  { id: "kfc", name: "KFC", color: "#E4002B", rating: 4.2 },
+  { id: "pizzahut", name: "Pizza Hut", color: "#EE3124", rating: 4.1 },
+  { id: "subway", name: "Subway", color: "#008C15", rating: 4.0 },
+  { id: "burgerking", name: "Burger King", color: "#D62300", rating: 4.1 },
+  { id: "magicpin", name: "MagicPin", color: "#E91E63", rating: 4.2 },
+  { id: "thrive", name: "Thrive", color: "#7C3AED", rating: 4.0 },
+  { id: "ondc", name: "ONDC", color: "#1F6FEB", rating: 4.0 },
+  { id: "dunzo", name: "Dunzo", color: "#00D26A", rating: 4.1 },
+  { id: "boxes", name: "Box8", color: "#F26522", rating: 4.0 },
+  { id: "faasos", name: "Faasos", color: "#C8102E", rating: 4.1 },
 ];
 
 export type Offer = {
@@ -23,7 +33,7 @@ export type Offer = {
   itemName: string;
   basePrice: number;
   deliveryFee: number;
-  discountPct: number; // 0-100
+  discountPct: number;
   couponCode?: string;
   etaMins: number;
   rating: number;
@@ -40,7 +50,6 @@ export type FoodItem = {
   offers: Offer[];
 };
 
-// Helper to deterministically vary numbers
 const v = (base: number, seed: number, spread: number) =>
   Math.round(base + ((seed * 9301 + 49297) % 233280) / 233280 * spread - spread / 2);
 
@@ -49,17 +58,17 @@ const makeOffers = (
   isVeg: boolean,
   basePrice: number,
   seed: number,
-  restaurants: Record<string, string>,
+  restaurants: Partial<Record<string, string>>,
 ): Offer[] =>
   PLATFORMS.filter((p) => restaurants[p.id]).map((p, i) => ({
     id: `${itemName}-${p.id}`,
-    restaurant: restaurants[p.id],
+    restaurant: restaurants[p.id]!,
     platformId: p.id,
     itemName,
     basePrice: v(basePrice, seed + i, 60),
     deliveryFee: [0, 19, 25, 29, 35, 39][((seed + i) % 6 + 6) % 6],
     discountPct: [0, 10, 15, 20, 25, 30, 40, 50][((seed + i * 3) % 8 + 8) % 8],
-    couponCode: i % 2 === 0 ? ["WELCOME50", "STUDENT20", "HOSTEL15", "FLAT30"][((seed + i) % 4 + 4) % 4] : undefined,
+    couponCode: i % 2 === 0 ? ["WELCOME50", "STUDENT20", "HOSTEL15", "FLAT30", "CAMPUS25"][((seed + i) % 5 + 5) % 5] : undefined,
     etaMins: 20 + ((seed + i * 7) % 30),
     rating: 3.8 + ((seed + i * 5) % 12) / 10,
     isVeg,
@@ -77,8 +86,11 @@ export const FOOD_ITEMS: FoodItem[] = [
       swiggy: "China Town",
       zomato: "Wok Express",
       eatsure: "Faasos Bowls",
-      dominos: "",
-      mcd: "",
+      magicpin: "Mainland China",
+      thrive: "Beijing Bites",
+      ondc: "Wok On Fire",
+      dunzo: "Chung Wah",
+      boxes: "Box8 Asia",
     }),
   },
   {
@@ -91,8 +103,11 @@ export const FOOD_ITEMS: FoodItem[] = [
       swiggy: "Punjabi Tadka",
       zomato: "Behrouz Biryani",
       eatsure: "Oven Story",
-      dominos: "",
-      mcd: "",
+      magicpin: "Punjab Grill",
+      thrive: "Pind Balluchi",
+      ondc: "Moti Mahal",
+      dunzo: "Bukhara Express",
+      faasos: "Faasos Curries",
     }),
   },
   {
@@ -105,8 +120,12 @@ export const FOOD_ITEMS: FoodItem[] = [
       swiggy: "Paradise Biryani",
       zomato: "Behrouz Biryani",
       eatsure: "Biryani Blues",
-      dominos: "",
-      mcd: "",
+      magicpin: "Bawarchi",
+      kfc: "KFC Biryani Bucket",
+      thrive: "Hyderabad House",
+      ondc: "Mehfil Biryani",
+      dunzo: "Shadab",
+      faasos: "Faasos Biryani",
     }),
   },
   {
@@ -120,7 +139,10 @@ export const FOOD_ITEMS: FoodItem[] = [
       zomato: "Pizza Hut",
       eatsure: "Oven Story",
       dominos: "Domino's Pizza",
-      mcd: "",
+      pizzahut: "Pizza Hut",
+      magicpin: "MOD Pizza",
+      thrive: "Slice of Italy",
+      ondc: "Local Pizzeria",
     }),
   },
   {
@@ -131,9 +153,51 @@ export const FOOD_ITEMS: FoodItem[] = [
     offers: makeOffers("McAloo Tikki Burger", true, 60, 67, {
       swiggy: "McDonald's",
       zomato: "McDonald's",
-      eatsure: "",
-      dominos: "",
       mcd: "McDonald's",
+      burgerking: "Burger King",
+      magicpin: "McDonald's",
+      dunzo: "McDonald's",
+    }),
+  },
+  {
+    slug: "veg-whopper",
+    name: "Veg Whopper",
+    category: "Veg",
+    emoji: "🍔",
+    trending: true,
+    offers: makeOffers("Veg Whopper", true, 199, 71, {
+      swiggy: "Burger King",
+      zomato: "Burger King",
+      burgerking: "Burger King",
+      magicpin: "Burger King",
+      dunzo: "Burger King",
+    }),
+  },
+  {
+    slug: "zinger-burger",
+    name: "Zinger Burger",
+    category: "Non-Veg",
+    emoji: "🍔",
+    trending: true,
+    offers: makeOffers("Zinger Burger", false, 169, 73, {
+      swiggy: "KFC",
+      zomato: "KFC",
+      kfc: "KFC",
+      magicpin: "KFC",
+      dunzo: "KFC",
+    }),
+  },
+  {
+    slug: "veg-sub",
+    name: "Veggie Delite Sub",
+    category: "Veg",
+    emoji: "🥪",
+    offers: makeOffers("Veggie Delite Sub", true, 180, 77, {
+      swiggy: "Subway",
+      zomato: "Subway",
+      subway: "Subway",
+      magicpin: "Subway",
+      ondc: "Subway",
     }),
   },
   {
@@ -145,8 +209,11 @@ export const FOOD_ITEMS: FoodItem[] = [
       swiggy: "Sagar Ratna",
       zomato: "Dosa Plaza",
       eatsure: "Faasos",
-      dominos: "",
-      mcd: "",
+      magicpin: "Saravana Bhavan",
+      thrive: "Anjappar",
+      ondc: "MTR",
+      dunzo: "Komala Vilas",
+      faasos: "Faasos South",
     }),
   },
   {
@@ -157,9 +224,54 @@ export const FOOD_ITEMS: FoodItem[] = [
     offers: makeOffers("Chocolate Shake", true, 140, 97, {
       swiggy: "Keventers",
       zomato: "Frozen Bottle",
-      eatsure: "",
-      dominos: "",
       mcd: "McDonald's",
+      burgerking: "Burger King",
+      magicpin: "Starbucks",
+      thrive: "Cafe Coffee Day",
+      dunzo: "Keventers",
+    }),
+  },
+  {
+    slug: "cold-coffee",
+    name: "Cold Coffee",
+    category: "Beverage",
+    emoji: "☕",
+    trending: true,
+    offers: makeOffers("Cold Coffee", true, 160, 101, {
+      swiggy: "Starbucks",
+      zomato: "Blue Tokai",
+      magicpin: "Third Wave Coffee",
+      thrive: "Cafe Coffee Day",
+      ondc: "Chaayos",
+      dunzo: "Barista",
+    }),
+  },
+  {
+    slug: "choco-lava-cake",
+    name: "Choco Lava Cake",
+    category: "Dessert",
+    emoji: "🍫",
+    trending: true,
+    offers: makeOffers("Choco Lava Cake", true, 99, 103, {
+      swiggy: "Domino's",
+      zomato: "Domino's",
+      dominos: "Domino's Pizza",
+      magicpin: "Theobroma",
+      thrive: "Cake Shop",
+      dunzo: "Mio Amore",
+    }),
+  },
+  {
+    slug: "gulab-jamun",
+    name: "Gulab Jamun",
+    category: "Dessert",
+    emoji: "🍯",
+    offers: makeOffers("Gulab Jamun", true, 80, 107, {
+      swiggy: "Haldiram's",
+      zomato: "Bikanervala",
+      magicpin: "Ghasitaram",
+      ondc: "Local Sweets",
+      dunzo: "Anand Sweets",
     }),
   },
   {
@@ -172,8 +284,40 @@ export const FOOD_ITEMS: FoodItem[] = [
       swiggy: "Annapurna Mess",
       zomato: "Rajdhani",
       eatsure: "The Good Bowl",
-      dominos: "",
-      mcd: "",
+      magicpin: "Sagar Ratna",
+      thrive: "Hostel Tiffin Co.",
+      ondc: "Maa Ki Rasoi",
+      dunzo: "Ghar Ka Khana",
+      faasos: "Faasos Meals",
+    }),
+  },
+  {
+    slug: "chicken-wings",
+    name: "Chicken Wings",
+    category: "Non-Veg",
+    emoji: "🍗",
+    offers: makeOffers("Chicken Wings", false, 240, 127, {
+      swiggy: "KFC",
+      zomato: "Wat-a-Burger",
+      kfc: "KFC",
+      magicpin: "Wingreens",
+      dunzo: "Buffalo Wild Wings",
+    }),
+  },
+  {
+    slug: "veg-momos",
+    name: "Veg Momos",
+    category: "Veg",
+    emoji: "🥟",
+    trending: true,
+    offers: makeOffers("Veg Momos", true, 90, 131, {
+      swiggy: "Wow! Momo",
+      zomato: "Dimsum Bros",
+      magicpin: "Momo Cafe",
+      thrive: "Dilli Momos",
+      ondc: "Street Momos",
+      dunzo: "Momo Junction",
+      boxes: "Box8 Momos",
     }),
   },
 ];
