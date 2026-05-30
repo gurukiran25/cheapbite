@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { Header } from "@/components/Header";
 import { OfferRow } from "@/components/OfferRow";
 import { FilterBar, type DietKey, type SortKey } from "@/components/FilterBar";
-import { computeFinal, findFood, type FoodItem } from "@/data/mockData";
+import { computeFinal, findFood, valueScore, type FoodItem } from "@/data/mockData";
 
 export const Route = createFileRoute("/food/$slug")({
   loader: ({ params }): FoodItem => {
