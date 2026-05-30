@@ -20,7 +20,7 @@ export const Route = createFileRoute("/search")({
 
 function SearchPage() {
   const { q } = Route.useSearch();
-  const results = searchFoods(q);
+  const results = smartSearch(q).map((r) => r.food);
   return (
     <div className="min-h-screen bg-background">
       <Header />
