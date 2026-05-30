@@ -36,13 +36,13 @@ function Home() {
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
             <Sparkles className="h-3.5 w-3.5" /> Made for hostel students
           </div>
-          <h1 className="font-display text-balance text-3xl font-bold leading-[1.05] sm:text-5xl">
-            One search.<br />
-            <span className="bg-gradient-warm bg-clip-text text-transparent">Cheapest food across apps.</span>
+          <h1 className="font-display text-balance text-3xl font-black leading-[1.02] sm:text-5xl">
+            Stop overpaying<br />
+            <span className="bg-gradient-warm bg-clip-text text-transparent">for food.</span>
           </h1>
           <p className="mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
-            Plately compares prices, delivery fees and coupons across Swiggy, Zomato,
-            EatSure, Domino's and McDonald's — so you never overpay for a biryani again.
+            Compare Swiggy, Zomato, EatSure, Domino's & 11 more — instantly. See item price,
+            delivery & platform fees side-by-side. Save ₹30–₹80 every order.
           </p>
           <div className="mt-6">
             <SearchBar />
