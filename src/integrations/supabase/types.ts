@@ -14,16 +14,155 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          college: string | null
+          created_at: string
+          diet: Database["public"]["Enums"]["diet_pref"] | null
+          full_name: string | null
+          hostel: string | null
+          id: string
+          phone: string | null
+          referral_code: string
+          referred_by: string | null
+          updated_at: string
+          wallet_balance: number
+          year_of_study: number | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          college?: string | null
+          created_at?: string
+          diet?: Database["public"]["Enums"]["diet_pref"] | null
+          full_name?: string | null
+          hostel?: string | null
+          id: string
+          phone?: string | null
+          referral_code: string
+          referred_by?: string | null
+          updated_at?: string
+          wallet_balance?: number
+          year_of_study?: number | null
+        }
+        Update: {
+          avatar_url?: string | null
+          college?: string | null
+          created_at?: string
+          diet?: Database["public"]["Enums"]["diet_pref"] | null
+          full_name?: string | null
+          hostel?: string | null
+          id?: string
+          phone?: string | null
+          referral_code?: string
+          referred_by?: string | null
+          updated_at?: string
+          wallet_balance?: number
+          year_of_study?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_referred_by_fkey"
+            columns: ["referred_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          referee_id: string
+          referrer_id: string
+          reward_amount: number
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referee_id: string
+          referrer_id: string
+          reward_amount?: number
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referee_id?: string
+          referrer_id?: string
+          reward_amount?: number
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_referee_id_fkey"
+            columns: ["referee_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_referrer_id_fkey"
+            columns: ["referrer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wallet_txns: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          note: string | null
+          type: Database["public"]["Enums"]["wallet_txn_type"]
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          note?: string | null
+          type: Database["public"]["Enums"]["wallet_txn_type"]
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          note?: string | null
+          type?: Database["public"]["Enums"]["wallet_txn_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_txns_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      gen_referral_code: { Args: never; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      diet_pref: "veg" | "non-veg" | "vegan" | "eggetarian" | "no-preference"
+      wallet_txn_type:
+        | "signup_bonus"
+        | "referral"
+        | "order"
+        | "cashback"
+        | "refund"
+        | "adjustment"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +289,16 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      diet_pref: ["veg", "non-veg", "vegan", "eggetarian", "no-preference"],
+      wallet_txn_type: [
+        "signup_bonus",
+        "referral",
+        "order",
+        "cashback",
+        "refund",
+        "adjustment",
+      ],
+    },
   },
 } as const
