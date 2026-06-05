@@ -96,7 +96,21 @@ export function OfferRow({
             Updated {offer.updatedAgoMins}m ago
           </span>
         </div>
+
+        {/* Buy CTA */}
+        <Button
+          onClick={() => setBuyOpen(true)}
+          className={`mt-3 w-full gap-1.5 font-bold ${
+            isBest ? "bg-gradient-warm text-primary-foreground hover:opacity-95" : ""
+          }`}
+          variant={isBest ? "default" : "secondary"}
+        >
+          <ShoppingBag className="h-4 w-4" />
+          Buy on {platform.name} · ₹{final}
+        </Button>
       </div>
+
+      <BuyDialog open={buyOpen} onOpenChange={setBuyOpen} offer={offer} />
     </div>
   );
 }
