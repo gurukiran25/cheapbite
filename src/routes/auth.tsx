@@ -56,7 +56,7 @@ function AuthPage() {
           toast.error(parsed.error.errors[0].message);
           return;
         }
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email: parsed.data.email,
           password: parsed.data.password,
           options: {
@@ -68,7 +68,24 @@ function AuthPage() {
             },
           },
         });
-        if (error) throw error;
+        if (error) {
+          const code = (error as { code?: string }).code;
+          const msg = error.message?.toLowerCase() ?? "";
+          if (code === "weak_password" || msg.includes("weak") || msg.includes("pwned")) {
+            toast.error("That password is too common. Try mixing words, numbers, and symbols (e.g. Chai$Latte#2026).");
+          } else if (msg.includes("already") || msg.includes("registered")) {
+            toast.error("Email already registered — try logging in.");
+            setMode("login");
+          } else {
+            toast.error(error.message);
+          }
+          return;
+        }
+        if (!data.session) {
+          toast.success("Check your email to confirm your account ✉️");
+          setMode("login");
+          return;
+        }
         toast.success("Welcome! ₹50 added to your wallet 🎉");
         navigate({ to: "/profile" });
       } else {
@@ -81,7 +98,17 @@ function AuthPage() {
           email: parsed.data.email,
           password: parsed.data.password,
         });
-        if (error) throw error;
+        if (error) {
+          const msg = error.message?.toLowerCase() ?? "";
+          if (msg.includes("invalid login") || msg.includes("invalid credentials")) {
+            toast.error("Wrong email or password.");
+          } else if (msg.includes("not confirmed") || msg.includes("confirm")) {
+            toast.error("Please confirm your email first — check your inbox.");
+          } else {
+            toast.error(error.message);
+          }
+          return;
+        }
         toast.success("Welcome back!");
         navigate({ to: "/" });
       }
