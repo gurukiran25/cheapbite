@@ -1,6 +1,9 @@
-import { Clock, Scale, Star, Tag, Truck, Zap } from "lucide-react";
+import { useState } from "react";
+import { Clock, Scale, ShoppingBag, Star, Tag, Truck, Zap } from "lucide-react";
 import type { Offer } from "@/data/mockData";
 import { computeFinal, PLATFORMS, valueScore } from "@/data/mockData";
+import { Button } from "@/components/ui/button";
+import { BuyDialog } from "@/components/BuyDialog";
 
 export function OfferRow({
   offer,
