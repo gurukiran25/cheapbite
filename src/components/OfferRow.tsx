@@ -19,6 +19,7 @@ export function OfferRow({
   const platform = PLATFORMS.find((p) => p.id === offer.platformId)!;
   const { discounted, discountAmt, final, sticker } = computeFinal(offer);
   const value = valueScore(offer);
+  const [buyOpen, setBuyOpen] = useState(false);
 
   return (
     <div
