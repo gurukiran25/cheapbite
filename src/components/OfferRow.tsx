@@ -1,6 +1,9 @@
-import { Clock, Scale, Star, Tag, Truck, Zap } from "lucide-react";
+import { useState } from "react";
+import { Clock, Scale, ShoppingBag, Star, Tag, Truck, Zap } from "lucide-react";
 import type { Offer } from "@/data/mockData";
 import { computeFinal, PLATFORMS, valueScore } from "@/data/mockData";
+import { Button } from "@/components/ui/button";
+import { BuyDialog } from "@/components/BuyDialog";
 
 export function OfferRow({
   offer,
@@ -16,6 +19,7 @@ export function OfferRow({
   const platform = PLATFORMS.find((p) => p.id === offer.platformId)!;
   const { discounted, discountAmt, final, sticker } = computeFinal(offer);
   const value = valueScore(offer);
+  const [buyOpen, setBuyOpen] = useState(false);
 
   return (
     <div
@@ -92,7 +96,21 @@ export function OfferRow({
             Updated {offer.updatedAgoMins}m ago
           </span>
         </div>
+
+        {/* Buy CTA */}
+        <Button
+          onClick={() => setBuyOpen(true)}
+          className={`mt-3 w-full gap-1.5 font-bold ${
+            isBest ? "bg-gradient-warm text-primary-foreground hover:opacity-95" : ""
+          }`}
+          variant={isBest ? "default" : "secondary"}
+        >
+          <ShoppingBag className="h-4 w-4" />
+          Buy on {platform.name} · ₹{final}
+        </Button>
       </div>
+
+      <BuyDialog open={buyOpen} onOpenChange={setBuyOpen} offer={offer} />
     </div>
   );
 }
