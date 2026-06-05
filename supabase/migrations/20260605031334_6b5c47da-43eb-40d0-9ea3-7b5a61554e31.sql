@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.prevent_protected_profile_changes() FROM PUBLIC, anon, authenticated;
