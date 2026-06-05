@@ -6,25 +6,33 @@ export type Platform = {
   name: string;
   color: string;
   rating: number;
+  /** Search URL template; {q} is replaced with the URL-encoded item name. */
+  searchUrl: string;
 };
 
 export const PLATFORMS: Platform[] = [
-  { id: "swiggy", name: "Swiggy", color: "#FC8019", rating: 4.3 },
-  { id: "zomato", name: "Zomato", color: "#E23744", rating: 4.2 },
-  { id: "eatsure", name: "EatSure", color: "#1FA463", rating: 4.1 },
-  { id: "dominos", name: "Domino's", color: "#0078AE", rating: 4.4 },
-  { id: "mcd", name: "McDonald's", color: "#FFC72C", rating: 4.0 },
-  { id: "kfc", name: "KFC", color: "#E4002B", rating: 4.2 },
-  { id: "pizzahut", name: "Pizza Hut", color: "#EE3124", rating: 4.1 },
-  { id: "subway", name: "Subway", color: "#008C15", rating: 4.0 },
-  { id: "burgerking", name: "Burger King", color: "#D62300", rating: 4.1 },
-  { id: "magicpin", name: "MagicPin", color: "#E91E63", rating: 4.2 },
-  { id: "thrive", name: "Thrive", color: "#7C3AED", rating: 4.0 },
-  { id: "ondc", name: "ONDC", color: "#1F6FEB", rating: 4.0 },
-  { id: "dunzo", name: "Dunzo", color: "#00D26A", rating: 4.1 },
-  { id: "boxes", name: "Box8", color: "#F26522", rating: 4.0 },
-  { id: "faasos", name: "Faasos", color: "#C8102E", rating: 4.1 },
+  { id: "swiggy", name: "Swiggy", color: "#FC8019", rating: 4.3, searchUrl: "https://www.swiggy.com/search?query={q}" },
+  { id: "zomato", name: "Zomato", color: "#E23744", rating: 4.2, searchUrl: "https://www.zomato.com/india/delivery?q={q}" },
+  { id: "eatsure", name: "EatSure", color: "#1FA463", rating: 4.1, searchUrl: "https://www.eatsure.com/search?q={q}" },
+  { id: "dominos", name: "Domino's", color: "#0078AE", rating: 4.4, searchUrl: "https://pizzaonline.dominos.co.in/menu" },
+  { id: "mcd", name: "McDonald's", color: "#FFC72C", rating: 4.0, searchUrl: "https://www.mcdelivery.co.in/in/menu" },
+  { id: "kfc", name: "KFC", color: "#E4002B", rating: 4.2, searchUrl: "https://online.kfc.co.in/menu" },
+  { id: "pizzahut", name: "Pizza Hut", color: "#EE3124", rating: 4.1, searchUrl: "https://www.pizzahut.co.in/menu" },
+  { id: "subway", name: "Subway", color: "#008C15", rating: 4.0, searchUrl: "https://order.subway.com/en-IN" },
+  { id: "burgerking", name: "Burger King", color: "#D62300", rating: 4.1, searchUrl: "https://www.burgerking.in/menu" },
+  { id: "magicpin", name: "MagicPin", color: "#E91E63", rating: 4.2, searchUrl: "https://magicpin.in/search/?q={q}" },
+  { id: "thrive", name: "Thrive", color: "#7C3AED", rating: 4.0, searchUrl: "https://thrivenow.in/" },
+  { id: "ondc", name: "ONDC", color: "#1F6FEB", rating: 4.0, searchUrl: "https://www.mystore.in/en/search?query={q}" },
+  { id: "dunzo", name: "Dunzo", color: "#00D26A", rating: 4.1, searchUrl: "https://www.dunzo.com/" },
+  { id: "boxes", name: "Box8", color: "#F26522", rating: 4.0, searchUrl: "https://www.box8.in/menu" },
+  { id: "faasos", name: "Faasos", color: "#C8102E", rating: 4.1, searchUrl: "https://www.faasos.io/" },
 ];
+
+export function platformOrderUrl(platformId: string, itemName: string): string {
+  const p = PLATFORMS.find((x) => x.id === platformId);
+  if (!p) return "#";
+  return p.searchUrl.replace("{q}", encodeURIComponent(itemName));
+}
 
 export type Offer = {
   id: string;
