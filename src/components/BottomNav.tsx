@@ -3,9 +3,9 @@ import { Home, Search, Wallet, User as UserIcon } from "lucide-react";
 
 const items = [
   { to: "/", label: "Home", icon: Home, exact: true },
-  { to: "/search", label: "Search", icon: Search },
-  { to: "/wallet", label: "Wallet", icon: Wallet },
-  { to: "/profile", label: "Profile", icon: UserIcon },
+  { to: "/search", label: "Search", icon: Search, exact: false },
+  { to: "/wallet", label: "Wallet", icon: Wallet, exact: false },
+  { to: "/profile", label: "Profile", icon: UserIcon, exact: false },
 ] as const;
 
 export function BottomNav() {
