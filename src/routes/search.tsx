@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { z } from "zod";
 import { Header } from "@/components/Header";
@@ -12,12 +12,21 @@ const searchSchema = z.object({ q: z.string().optional().default("") });
 
 export const Route = createFileRoute("/search")({
   validateSearch: searchSchema,
-  head: () => ({
-    meta: [
-      { title: "Search — Plately" },
-      { name: "description", content: "Compare prices across delivery apps." },
-    ],
-  }),
+  head: ({ match }) => {
+    const q = (match.search as { q?: string })?.q ?? "";
+    const title = q ? `"${q}" — Plately price compare` : "Search dishes — Plately";
+    const desc = q
+      ? `Compare ${q} prices across Swiggy, Zomato, Domino's, EatSure and more.`
+      : "Search any dish and instantly compare prices across 15 food delivery apps.";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: desc },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+      ],
+    };
+  },
   component: SearchPage,
 });
 
