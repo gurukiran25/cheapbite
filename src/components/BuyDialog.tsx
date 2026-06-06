@@ -66,6 +66,31 @@ export function BuyDialog({
     addr.line1.trim().length > 3 &&
     /^\d{6}$/.test(addr.pincode.trim());
 
+  function openExternal(url: string) {
+    // Use a synchronous anchor click — most reliable across mobile browsers,
+    // in-app WebViews and iframe previews where window.open() is blocked.
+    try {
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch {
+      /* ignore */
+    }
+    // Fallback: navigate the top frame (handles iframe + popup-blocker case).
+    setTimeout(() => {
+      try {
+        const top = window.top ?? window;
+        top.location.href = url;
+      } catch {
+        window.location.href = url;
+      }
+    }, 350);
+  }
+
   function handleBuy() {
     if (!valid) {
       toast.error("Please fill name, 10-digit phone, address and 6-digit pincode.");
@@ -74,7 +99,7 @@ export function BuyDialog({
     localStorage.setItem("plately:checkout", JSON.stringify({ addr, pay }));
     const url = platformOrderUrl(offer.platformId, offer.itemName);
     toast.success(`Opening ${platform.name} to complete your order…`);
-    window.open(url, "_blank", "noopener,noreferrer");
+    openExternal(url);
     onOpenChange(false);
   }
 
