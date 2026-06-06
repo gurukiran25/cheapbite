@@ -34,8 +34,15 @@ type Cat = "All" | "Veg" | "Non-Veg" | "Dessert" | "Beverage";
 
 function SearchPage() {
   const { q } = Route.useSearch();
+  const navigate = useNavigate();
+  const [liveQ, setLiveQ] = useState(q);
+  const effectiveQ = liveQ;
   const [cat, setCat] = useState<Cat>("All");
   const [budget, setBudget] = useState<number | null>(null);
+
+  const ranked = useMemo(() => smartSearch(effectiveQ), [effectiveQ]);
+  const restos = useMemo(() => searchRestaurants(effectiveQ), [effectiveQ]);
+  const suggestion = useMemo(() => didYouMean(effectiveQ), [effectiveQ]);
 
   const ranked = useMemo(() => smartSearch(q), [q]);
   const restos = useMemo(() => searchRestaurants(q), [q]);
