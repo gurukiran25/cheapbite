@@ -68,7 +68,14 @@ function SearchPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="mx-auto max-w-6xl px-4 py-6">
-        <SearchBar defaultValue={q} />
+        <SearchBar
+          value={liveQ}
+          onChange={(v) => {
+            setLiveQ(v);
+            navigate({ to: "/search", search: { q: v }, replace: true });
+          }}
+        />
+
 
         <div className="mt-6 flex items-baseline justify-between">
           <h1 className="font-display text-xl font-bold">
