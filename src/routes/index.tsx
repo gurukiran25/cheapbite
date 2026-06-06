@@ -32,9 +32,21 @@ function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-hero-glow" />
+        {/* Floating food emoji decoration */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <span className="absolute left-[6%] top-10 text-3xl opacity-30 blur-[0.5px] animate-[float_7s_ease-in-out_infinite]">🍕</span>
+          <span className="absolute right-[8%] top-6 text-4xl opacity-30 animate-[float_9s_ease-in-out_infinite_-2s]">🍔</span>
+          <span className="absolute left-[18%] bottom-4 text-2xl opacity-25 animate-[float_8s_ease-in-out_infinite_-4s]">🥟</span>
+          <span className="absolute right-[14%] bottom-10 text-3xl opacity-25 animate-[float_10s_ease-in-out_infinite_-1s]">🍜</span>
+          <span className="absolute left-[42%] top-2 text-2xl opacity-20 animate-[float_11s_ease-in-out_infinite_-3s]">🌮</span>
+        </div>
         <div className="relative mx-auto max-w-6xl px-4 pb-8 pt-10 sm:pt-16">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-            <Sparkles className="h-3.5 w-3.5" /> Made for hostel students
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            Live prices · made for hostel students
           </div>
           <h1 className="font-display text-balance text-3xl font-black leading-[1.02] sm:text-5xl">
             Stop overpaying<br />
@@ -44,14 +56,16 @@ function Home() {
             Compare Swiggy, Zomato, EatSure, Domino's & 11 more — instantly. See item price,
             delivery & platform fees side-by-side. Save ₹30–₹80 every order.
           </p>
-          <div className="mt-6">
-            <SearchBar />
+          <div className="mt-6 rounded-2xl bg-gradient-warm p-[1.5px] shadow-glow">
+            <div className="rounded-[14px] bg-background">
+              <SearchBar />
+            </div>
           </div>
 
           {/* Platform strip */}
           <div className="no-scrollbar mt-5 flex gap-2 overflow-x-auto">
             {PLATFORMS.map((p) => (
-              <div key={p.id} className="flex shrink-0 items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium">
+              <div key={p.id} className="flex shrink-0 items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-card">
                 <span className="h-2 w-2 rounded-full" style={{ backgroundColor: p.color }} />
                 {p.name}
               </div>
@@ -59,6 +73,7 @@ function Home() {
           </div>
         </div>
       </section>
+
 
       <main className="mx-auto max-w-6xl space-y-10 px-4 pb-20">
         {/* Trust strip */}

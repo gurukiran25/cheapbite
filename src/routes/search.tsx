@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { z } from "zod";
 import { Header } from "@/components/Header";
@@ -12,12 +12,21 @@ const searchSchema = z.object({ q: z.string().optional().default("") });
 
 export const Route = createFileRoute("/search")({
   validateSearch: searchSchema,
-  head: () => ({
-    meta: [
-      { title: "Search — Plately" },
-      { name: "description", content: "Compare prices across delivery apps." },
-    ],
-  }),
+  head: ({ match }) => {
+    const q = (match.search as { q?: string })?.q ?? "";
+    const title = q ? `"${q}" — Plately price compare` : "Search dishes — Plately";
+    const desc = q
+      ? `Compare ${q} prices across Swiggy, Zomato, Domino's, EatSure and more.`
+      : "Search any dish and instantly compare prices across 15 food delivery apps.";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: desc },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+      ],
+    };
+  },
   component: SearchPage,
 });
 
@@ -25,12 +34,16 @@ type Cat = "All" | "Veg" | "Non-Veg" | "Dessert" | "Beverage";
 
 function SearchPage() {
   const { q } = Route.useSearch();
+  const navigate = useNavigate();
+  const [liveQ, setLiveQ] = useState(q);
+  const effectiveQ = liveQ;
   const [cat, setCat] = useState<Cat>("All");
   const [budget, setBudget] = useState<number | null>(null);
 
-  const ranked = useMemo(() => smartSearch(q), [q]);
-  const restos = useMemo(() => searchRestaurants(q), [q]);
-  const suggestion = useMemo(() => didYouMean(q), [q]);
+  const ranked = useMemo(() => smartSearch(effectiveQ), [effectiveQ]);
+  const restos = useMemo(() => searchRestaurants(effectiveQ), [effectiveQ]);
+  const suggestion = useMemo(() => didYouMean(effectiveQ), [effectiveQ]);
+
 
   const cheapestOf = (food: typeof ranked[number]["food"]) =>
     Math.min(...food.offers.map((o) => computeFinal(o).final));
@@ -55,11 +68,18 @@ function SearchPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="mx-auto max-w-6xl px-4 py-6">
-        <SearchBar defaultValue={q} />
+        <SearchBar
+          value={liveQ}
+          onChange={(v) => {
+            setLiveQ(v);
+            navigate({ to: "/search", search: { q: v }, replace: true });
+          }}
+        />
+
 
         <div className="mt-6 flex items-baseline justify-between">
           <h1 className="font-display text-xl font-bold">
-            {q ? <>Results for "<span className="text-primary">{q}</span>"</> : "All items"}
+            {effectiveQ ? <>Results for "<span className="text-primary">{effectiveQ}</span>"</> : "All items"}
           </h1>
           <span className="text-xs text-muted-foreground">{filtered.length} matches</span>
         </div>
@@ -75,7 +95,7 @@ function SearchPage() {
           </Link>
         )}
 
-        {q && (
+        {effectiveQ && (
           <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto pb-1">
             {cats.map((c) => {
               const count = c === "All" ? ranked.length : ranked.filter((r) => r.food.category === c).length;
@@ -114,7 +134,7 @@ function SearchPage() {
         </div>
 
 
-        {restos.length > 0 && q && (
+        {restos.length > 0 && effectiveQ && (
           <section className="mt-5">
             <h2 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground">
               <Store className="h-3.5 w-3.5" /> Restaurants
@@ -124,7 +144,7 @@ function SearchPage() {
                 <div key={r.restaurant} className="flex items-center justify-between rounded-2xl border border-border bg-card p-3 shadow-card">
                   <div className="min-w-0">
                     <p className="truncate font-display text-sm font-semibold">
-                      {highlight(r.restaurant, q).map((p, i) => (
+                      {highlight(r.restaurant, effectiveQ).map((p, i) => (
                         <span key={i} className={p.match ? "bg-primary/20 text-primary" : ""}>{p.text}</span>
                       ))}
                     </p>

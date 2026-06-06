@@ -137,4 +137,9 @@
   .no-scrollbar { scrollbar-width: none; }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-14px) rotate(4deg); }
+}
+
 #lovable-badge { display: none !important; }
