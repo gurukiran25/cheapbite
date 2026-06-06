@@ -79,7 +79,7 @@ function SearchPage() {
 
         <div className="mt-6 flex items-baseline justify-between">
           <h1 className="font-display text-xl font-bold">
-            {q ? <>Results for "<span className="text-primary">{q}</span>"</> : "All items"}
+            {effectiveQ ? <>Results for "<span className="text-primary">{effectiveQ}</span>"</> : "All items"}
           </h1>
           <span className="text-xs text-muted-foreground">{filtered.length} matches</span>
         </div>
@@ -95,7 +95,7 @@ function SearchPage() {
           </Link>
         )}
 
-        {q && (
+        {effectiveQ && (
           <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto pb-1">
             {cats.map((c) => {
               const count = c === "All" ? ranked.length : ranked.filter((r) => r.food.category === c).length;
@@ -134,7 +134,7 @@ function SearchPage() {
         </div>
 
 
-        {restos.length > 0 && q && (
+        {restos.length > 0 && effectiveQ && (
           <section className="mt-5">
             <h2 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-muted-foreground">
               <Store className="h-3.5 w-3.5" /> Restaurants
@@ -144,7 +144,7 @@ function SearchPage() {
                 <div key={r.restaurant} className="flex items-center justify-between rounded-2xl border border-border bg-card p-3 shadow-card">
                   <div className="min-w-0">
                     <p className="truncate font-display text-sm font-semibold">
-                      {highlight(r.restaurant, q).map((p, i) => (
+                      {highlight(r.restaurant, effectiveQ).map((p, i) => (
                         <span key={i} className={p.match ? "bg-primary/20 text-primary" : ""}>{p.text}</span>
                       ))}
                     </p>
