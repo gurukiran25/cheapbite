@@ -4,7 +4,6 @@ import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -59,6 +58,7 @@ export function BuyDialog({
   }, [open]);
 
   const update = (k: keyof Address, v: string) => setAddr((a) => ({ ...a, [k]: v }));
+  const orderUrl = platformOrderUrl(offer.platformId, offer.itemName);
 
   const valid =
     addr.name.trim().length > 1 &&
@@ -97,9 +97,8 @@ export function BuyDialog({
       return;
     }
     localStorage.setItem("plately:checkout", JSON.stringify({ addr, pay }));
-    const url = platformOrderUrl(offer.platformId, offer.itemName);
-    toast.success(`Opening ${platform.name} to complete your order…`);
-    openExternal(url);
+    toast.success(`Opening ${platform.name} for ${offer.itemName}…`);
+    openExternal(orderUrl);
     onOpenChange(false);
   }
 
@@ -110,13 +109,11 @@ export function BuyDialog({
           <DialogTitle className="font-display text-xl">
             Buy {offer.itemName} · ₹{final}
           </DialogTitle>
-          <DialogDescription>
-            Confirm your address & payment. We'll redirect you to{" "}
-            <span className="font-semibold" style={{ color: platform.color }}>
-              {platform.name}
-            </span>{" "}
-            to place the actual order.
-          </DialogDescription>
+          <div className="text-sm text-muted-foreground">
+            Confirm your address & payment, then continue on{" "}
+            <span className="font-semibold" style={{ color: platform.color }}>{platform.name}</span>{" "}
+            to place the real order.
+          </div>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -175,16 +172,21 @@ export function BuyDialog({
           </section>
 
           <p className="rounded-xl bg-muted/60 p-2.5 text-[11px] leading-relaxed text-muted-foreground">
-            Plately compares prices. The order is placed on{" "}
+            Plately saves your details for next time. The final order is completed on{" "}
             <span className="font-semibold" style={{ color: platform.color }}>{platform.name}</span>{" "}
-            — they handle delivery, payment processing and support.
+            — they handle payment confirmation, delivery and support.
           </p>
         </div>
 
         <DialogFooter className="gap-2 sm:gap-2">
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button asChild variant="secondary">
+            <a href={orderUrl} target="_blank" rel="noopener noreferrer">
+              Open {platform.name}
+            </a>
+          </Button>
           <Button onClick={handleBuy} className="gap-1.5">
-            Buy on {platform.name} <ExternalLink className="h-4 w-4" />
+            Continue to buy <ExternalLink className="h-4 w-4" />
           </Button>
         </DialogFooter>
       </DialogContent>
