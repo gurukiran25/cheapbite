@@ -44,9 +44,6 @@ function SearchPage() {
   const restos = useMemo(() => searchRestaurants(effectiveQ), [effectiveQ]);
   const suggestion = useMemo(() => didYouMean(effectiveQ), [effectiveQ]);
 
-  const ranked = useMemo(() => smartSearch(q), [q]);
-  const restos = useMemo(() => searchRestaurants(q), [q]);
-  const suggestion = useMemo(() => didYouMean(q), [q]);
 
   const cheapestOf = (food: typeof ranked[number]["food"]) =>
     Math.min(...food.offers.map((o) => computeFinal(o).final));
