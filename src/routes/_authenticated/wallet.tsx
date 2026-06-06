@@ -5,6 +5,13 @@ import { Header } from "@/components/Header";
 import { ArrowLeft, Wallet as WalletIcon, TrendingUp, Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/wallet")({
+  head: () => ({
+    meta: [
+      { title: "Wallet — Plately" },
+      { name: "description", content: "Track your Plately wallet balance and transaction history." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: WalletPage,
 });
 
