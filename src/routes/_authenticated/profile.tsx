@@ -7,6 +7,13 @@ import { Camera, Loader2, LogOut, Wallet, Gift } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_authenticated/profile")({
+  head: () => ({
+    meta: [
+      { title: "Your profile — Plately" },
+      { name: "description", content: "Manage your Plately profile, hostel, diet and personal details." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: ProfilePage,
 });
 
