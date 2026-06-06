@@ -3,8 +3,22 @@ import { Search, TrendingUp, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { suggest } from "@/lib/search";
 
-export function SearchBar({ defaultValue = "" }: { defaultValue?: string }) {
-  const [q, setQ] = useState(defaultValue);
+export function SearchBar({
+  defaultValue = "",
+  value,
+  onChange,
+}: {
+  defaultValue?: string;
+  value?: string;
+  onChange?: (v: string) => void;
+}) {
+  const [internalQ, setInternalQ] = useState(defaultValue);
+  const controlled = value !== undefined;
+  const q = controlled ? value! : internalQ;
+  const setQ = (v: string) => {
+    if (!controlled) setInternalQ(v);
+    onChange?.(v);
+  };
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const wrapRef = useRef<HTMLDivElement>(null);
