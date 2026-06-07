@@ -3,9 +3,12 @@ import type { FoodItem } from "@/data/mockData";
 import { computeFinal } from "@/data/mockData";
 
 export function FoodCard({ food }: { food: FoodItem }) {
-  const cheapest = food.offers
+  const priced = food.offers
     .map((o) => ({ o, ...computeFinal(o) }))
-    .sort((a, b) => a.final - b.final)[0];
+    .sort((a, b) => a.final - b.final);
+  const cheapest = priced[0];
+  const costliest = priced[priced.length - 1];
+  const spread = cheapest && costliest ? costliest.final - cheapest.final : 0;
 
   return (
     <Link
@@ -34,7 +37,7 @@ export function FoodCard({ food }: { food: FoodItem }) {
         <span className="text-[11px] uppercase tracking-wider text-muted-foreground">
           Best: <span className="font-semibold text-primary">{cheapest?.o.restaurant}</span>
         </span>
-        <span className="text-xs font-semibold text-success">Save ₹{cheapest?.savings}</span>
+        {spread > 0 && <span className="text-xs font-semibold text-success">Save ₹{spread}</span>}
       </div>
     </Link>
   );
