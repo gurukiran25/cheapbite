@@ -12,26 +12,36 @@ export type Platform = {
 
 export const PLATFORMS: Platform[] = [
   { id: "swiggy", name: "Swiggy", color: "#FC8019", rating: 4.3, searchUrl: "https://www.swiggy.com/search?query={q}" },
-  { id: "zomato", name: "Zomato", color: "#E23744", rating: 4.2, searchUrl: "https://www.zomato.com/india/delivery?q={q}" },
-  { id: "eatsure", name: "EatSure", color: "#1FA463", rating: 4.1, searchUrl: "https://www.eatsure.com/search?q={q}" },
-  { id: "dominos", name: "Domino's", color: "#0078AE", rating: 4.4, searchUrl: "https://pizzaonline.dominos.co.in/search?keyword={q}" },
-  { id: "mcd", name: "McDonald's", color: "#FFC72C", rating: 4.0, searchUrl: "https://www.mcdelivery.co.in/menu/search?keyword={q}" },
-  { id: "kfc", name: "KFC", color: "#E4002B", rating: 4.2, searchUrl: "https://online.kfc.co.in/search?search={q}" },
-  { id: "pizzahut", name: "Pizza Hut", color: "#EE3124", rating: 4.1, searchUrl: "https://www.pizzahut.co.in/menu/search?keyword={q}" },
-  { id: "subway", name: "Subway", color: "#008C15", rating: 4.0, searchUrl: "https://www.subway.com/en-in/menunutrition/menu/search?keyword={q}" },
-  { id: "burgerking", name: "Burger King", color: "#D62300", rating: 4.1, searchUrl: "https://www.burgerking.in/search?keyword={q}" },
+  { id: "zomato", name: "Zomato", color: "#E23744", rating: 4.2, searchUrl: "https://www.zomato.com/search?q={q}" },
+  { id: "eatsure", name: "EatSure", color: "#1FA463", rating: 4.1, searchUrl: "https://www.eatsure.com/" },
+  { id: "dominos", name: "Domino's", color: "#0078AE", rating: 4.4, searchUrl: "https://www.dominos.co.in/" },
+  { id: "mcd", name: "McDonald's", color: "#FFC72C", rating: 4.0, searchUrl: "https://www.mcdelivery.co.in/" },
+  { id: "kfc", name: "KFC", color: "#E4002B", rating: 4.2, searchUrl: "https://online.kfc.co.in/" },
+  { id: "pizzahut", name: "Pizza Hut", color: "#EE3124", rating: 4.1, searchUrl: "https://www.pizzahut.co.in/" },
+  { id: "subway", name: "Subway", color: "#008C15", rating: 4.0, searchUrl: "https://www.subway.com/en-IN" },
+  { id: "burgerking", name: "Burger King", color: "#D62300", rating: 4.1, searchUrl: "https://www.burgerking.in/" },
   { id: "magicpin", name: "MagicPin", color: "#E91E63", rating: 4.2, searchUrl: "https://magicpin.in/search/?q={q}" },
-  { id: "thrive", name: "Thrive", color: "#7C3AED", rating: 4.0, searchUrl: "https://www.thrivenow.in/search?q={q}" },
+  { id: "thrive", name: "Thrive", color: "#7C3AED", rating: 4.0, searchUrl: "https://www.thrivenow.in/" },
   { id: "ondc", name: "ONDC", color: "#1F6FEB", rating: 4.0, searchUrl: "https://www.mystore.in/en/search?query={q}" },
-  { id: "dunzo", name: "Dunzo", color: "#00D26A", rating: 4.1, searchUrl: "https://www.dunzo.com/search?q={q}" },
-  { id: "boxes", name: "Box8", color: "#F26522", rating: 4.0, searchUrl: "https://box8.in/menu?search={q}" },
-  { id: "faasos", name: "Faasos", color: "#C8102E", rating: 4.1, searchUrl: "https://www.faasos.com/search?q={q}" },
+  { id: "dunzo", name: "Dunzo", color: "#00D26A", rating: 4.1, searchUrl: "https://www.dunzo.com/" },
+  { id: "boxes", name: "Box8", color: "#F26522", rating: 4.0, searchUrl: "https://box8.in/" },
+  { id: "faasos", name: "Faasos", color: "#C8102E", rating: 4.1, searchUrl: "https://www.faasos.com/" },
 ];
 
+/** Returns a URL that opens reliably in any browser. Brand pages with working
+ *  search use their own search; the rest fall back to a Google search that
+ *  always opens and lands on the real ordering page in one click. */
 export function platformOrderUrl(platformId: string, itemName: string): string {
   const p = PLATFORMS.find((x) => x.id === platformId);
-  if (!p) return "#";
-  return p.searchUrl.replace("{q}", encodeURIComponent(itemName));
+  if (!p) {
+    return `https://www.google.com/search?q=${encodeURIComponent(`${itemName} order online`)}`;
+  }
+  if (p.searchUrl.includes("{q}")) {
+    return p.searchUrl.replace("{q}", encodeURIComponent(itemName));
+  }
+  // Fallback: Google search scoped to "<item> on <platform>" — always works,
+  // works inside in-app browsers, and lands directly on the real order page.
+  return `https://www.google.com/search?q=${encodeURIComponent(`${itemName} order on ${p.name}`)}`;
 }
 
 export type Offer = {
