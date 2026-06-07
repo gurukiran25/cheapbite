@@ -76,24 +76,14 @@ function Home() {
 
 
       <main className="mx-auto max-w-6xl space-y-10 px-4 pb-20">
-        {/* Trust strip */}
-        <section className="-mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {[
-            { icon: IndianRupee, label: "₹2,43,712", sub: "saved this month" },
-            { icon: ShieldCheck, label: "15 apps", sub: "compared live" },
-            { icon: Timer, label: "< 2 min", sub: "prices refreshed" },
-            { icon: TrendingUp, label: "12,800+", sub: "students saving" },
-          ].map((t, i) => (
-            <div key={i} className="flex items-center gap-2 rounded-2xl border border-border bg-card p-3 shadow-card">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary/10 text-primary">
-                <t.icon className="h-4 w-4" />
-              </span>
-              <div className="leading-tight">
-                <p className="font-display text-sm font-bold">{t.label}</p>
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{t.sub}</p>
-              </div>
-            </div>
-          ))}
+        {/* Demo-data disclosure — honest, prominent */}
+        <section className="-mt-2 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-3 text-amber-700 dark:text-amber-300">
+          <p className="flex items-start gap-2 text-xs font-medium">
+            <Sparkles className="mt-0.5 h-4 w-4 shrink-0" />
+            <span>
+              <strong className="font-bold">Demo prices.</strong> CheapBite is in preview — all prices, ratings and savings shown are simulated for demonstration. Real partner API integrations are in progress.
+            </span>
+          </p>
         </section>
 
         {recent.length > 0 && (
