@@ -14,7 +14,7 @@ export const Route = createFileRoute("/food/$slug")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.name ?? "Food"} — Compare prices | Plately` },
+      { title: `${loaderData?.name ?? "Food"} — Compare prices | CheapBite` },
       { name: "description", content: `Compare ${loaderData?.name ?? "this dish"} across Swiggy, Zomato, EatSure, Domino's and McDonald's.` },
       { property: "og:title", content: `${loaderData?.name ?? ""} — cheapest across delivery apps` },
     ],

@@ -9,9 +9,9 @@ import { Flame, IndianRupee, Search, ShieldCheck, Sparkles, Timer, TrendingUp, Z
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Plately — Compare food prices across Swiggy, Zomato & more" },
-      { name: "description", content: "Built for hostel students. Compare prices, delivery fees, and coupons across delivery apps in seconds." },
-      { property: "og:title", content: "Plately — Cheapest bite, every time" },
+      { title: "CheapBite — Compare food prices across Swiggy, Zomato & more" },
+      { name: "description", content: "Built for hostel students. Compare prices, delivery fees across delivery apps in seconds." },
+      { property: "og:title", content: "CheapBite — Cheapest bite, every time" },
       { property: "og:description", content: "Compare food prices across Swiggy, Zomato, EatSure, Domino's and McDonald's." },
     ],
   }),

@@ -14,7 +14,7 @@ export const Route = createFileRoute("/search")({
   validateSearch: searchSchema,
   head: ({ match }) => {
     const q = (match.search as { q?: string })?.q ?? "";
-    const title = q ? `"${q}" — Plately price compare` : "Search dishes — Plately";
+    const title = q ? `"${q}" — CheapBite price compare` : "Search dishes — CheapBite";
     const desc = q
       ? `Compare ${q} prices across Swiggy, Zomato, Domino's, EatSure and more.`
       : "Search any dish and instantly compare prices across 15 food delivery apps.";

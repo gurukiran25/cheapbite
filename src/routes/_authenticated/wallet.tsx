@@ -7,8 +7,8 @@ import { ArrowLeft, Wallet as WalletIcon, TrendingUp, Loader2 } from "lucide-rea
 export const Route = createFileRoute("/_authenticated/wallet")({
   head: () => ({
     meta: [
-      { title: "Wallet — Plately" },
-      { name: "description", content: "Track your Plately wallet balance and transaction history." },
+      { title: "Wallet — CheapBite" },
+      { name: "description", content: "Track your CheapBite wallet balance and transaction history." },
       { name: "robots", content: "noindex" },
     ],
   }),

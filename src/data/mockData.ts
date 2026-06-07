@@ -20,10 +20,7 @@ export const PLATFORMS: Platform[] = [
   { id: "pizzahut", name: "Pizza Hut", color: "#EE3124", rating: 4.1, searchUrl: "https://www.pizzahut.co.in/" },
   { id: "subway", name: "Subway", color: "#008C15", rating: 4.0, searchUrl: "https://www.subway.com/en-IN" },
   { id: "burgerking", name: "Burger King", color: "#D62300", rating: 4.1, searchUrl: "https://www.burgerking.in/" },
-  { id: "magicpin", name: "MagicPin", color: "#E91E63", rating: 4.2, searchUrl: "https://magicpin.in/search/?q={q}" },
-  { id: "thrive", name: "Thrive", color: "#7C3AED", rating: 4.0, searchUrl: "https://www.thrivenow.in/" },
   { id: "ondc", name: "ONDC", color: "#1F6FEB", rating: 4.0, searchUrl: "https://www.mystore.in/en/search?query={q}" },
-  { id: "dunzo", name: "Dunzo", color: "#00D26A", rating: 4.1, searchUrl: "https://www.dunzo.com/" },
   { id: "boxes", name: "Box8", color: "#F26522", rating: 4.0, searchUrl: "https://box8.in/" },
   { id: "faasos", name: "Faasos", color: "#C8102E", rating: 4.1, searchUrl: "https://www.faasos.com/" },
 ];
