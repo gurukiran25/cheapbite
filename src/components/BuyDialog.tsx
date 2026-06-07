@@ -29,7 +29,7 @@ const PAY_OPTIONS = [
   { id: "card", label: "Credit / Debit Card", needsOtp: true },
   { id: "netbanking", label: "Net Banking", needsOtp: true },
   { id: "cod", label: "Cash on Delivery", needsOtp: false },
-  { id: "wallet", label: "Plately Wallet", needsOtp: true },
+  { id: "wallet", label: "CheapBite Wallet", needsOtp: true },
 ] as const;
 
 const empty: Address = { name: "", phone: "", hostel: "", line1: "", city: "", pincode: "" };
@@ -250,7 +250,7 @@ export function BuyDialog({
             </section>
 
             <p className="rounded-xl bg-muted/60 p-2.5 text-[11px] leading-relaxed text-muted-foreground">
-              Plately verifies your phone with an OTP, then opens{" "}
+              CheapBite verifies your phone with an OTP, then opens{" "}
               <span className="font-semibold" style={{ color: platform.color }}>{platform.name}</span>{" "}
               to complete delivery & payment.
             </p>

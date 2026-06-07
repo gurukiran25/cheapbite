@@ -8,9 +8,9 @@ import { ArrowLeft, Copy, Gift, Share2, Loader2 } from "lucide-react";
 export const Route = createFileRoute("/_authenticated/referrals")({
   head: () => ({
     meta: [
-      { title: "Refer friends, earn rewards — Plately" },
-      { name: "description", content: "Invite friends to Plately and earn wallet credit when they sign up and order." },
-      { property: "og:title", content: "Earn ₹50 per friend on Plately" },
+      { title: "Refer friends, earn rewards — CheapBite" },
+      { name: "description", content: "Invite friends to CheapBite and earn wallet credit when they sign up and order." },
+      { property: "og:title", content: "Earn ₹50 per friend on CheapBite" },
       { property: "og:description", content: "Share your referral link and get rewarded for every signup." },
     ],
   }),

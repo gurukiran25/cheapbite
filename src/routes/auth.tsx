@@ -13,9 +13,9 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Sign in or sign up — Plately" },
-      { name: "description", content: "Create your Plately account to save searches, earn referrals, and compare food prices faster." },
-      { property: "og:title", content: "Join Plately — save on every food order" },
+      { title: "Sign in or sign up — CheapBite" },
+      { name: "description", content: "Create your CheapBite account to save searches, earn referrals, and compare food prices faster." },
+      { property: "og:title", content: "Join CheapBite — save on every food order" },
       { property: "og:description", content: "Sign up free and start saving ₹30–₹80 per order across Swiggy, Zomato and more." },
     ],
   }),

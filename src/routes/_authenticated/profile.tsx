@@ -9,8 +9,8 @@ import { Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({
     meta: [
-      { title: "Your profile — Plately" },
-      { name: "description", content: "Manage your Plately profile, hostel, diet and personal details." },
+      { title: "Your profile — CheapBite" },
+      { name: "description", content: "Manage your CheapBite profile, hostel, diet and personal details." },
       { name: "robots", content: "noindex" },
     ],
   }),

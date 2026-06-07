@@ -9,9 +9,9 @@ import { Flame, IndianRupee, Search, ShieldCheck, Sparkles, Timer, TrendingUp, Z
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Plately — Compare food prices across Swiggy, Zomato & more" },
-      { name: "description", content: "Built for hostel students. Compare prices, delivery fees, and coupons across delivery apps in seconds." },
-      { property: "og:title", content: "Plately — Cheapest bite, every time" },
+      { title: "CheapBite — Compare food prices across Swiggy, Zomato & more" },
+      { name: "description", content: "Built for hostel students. Compare prices, delivery fees across delivery apps in seconds." },
+      { property: "og:title", content: "CheapBite — Cheapest bite, every time" },
       { property: "og:description", content: "Compare food prices across Swiggy, Zomato, EatSure, Domino's and McDonald's." },
     ],
   }),
@@ -42,19 +42,16 @@ function Home() {
         </div>
         <div className="relative mx-auto max-w-6xl px-4 pb-8 pt-10 sm:pt-16">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-            </span>
-            Live prices · made for hostel students
+            <Sparkles className="h-3.5 w-3.5" />
+            Preview · demo prices for now
           </div>
           <h1 className="font-display text-balance text-3xl font-black leading-[1.02] sm:text-5xl">
             Stop overpaying<br />
             <span className="bg-gradient-warm bg-clip-text text-transparent">for food.</span>
           </h1>
           <p className="mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
-            Compare Swiggy, Zomato, EatSure, Domino's & 11 more — instantly. See item price,
-            delivery & platform fees side-by-side. Save ₹30–₹80 every order.
+            Compare Swiggy, Zomato, EatSure, Domino's & more — instantly. See item price,
+            delivery & platform fees side-by-side.
           </p>
           <div className="mt-6 rounded-2xl bg-gradient-warm p-[1.5px] shadow-glow">
             <div className="rounded-[14px] bg-background">
@@ -76,24 +73,14 @@ function Home() {
 
 
       <main className="mx-auto max-w-6xl space-y-10 px-4 pb-20">
-        {/* Trust strip */}
-        <section className="-mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
-          {[
-            { icon: IndianRupee, label: "₹2,43,712", sub: "saved this month" },
-            { icon: ShieldCheck, label: "15 apps", sub: "compared live" },
-            { icon: Timer, label: "< 2 min", sub: "prices refreshed" },
-            { icon: TrendingUp, label: "12,800+", sub: "students saving" },
-          ].map((t, i) => (
-            <div key={i} className="flex items-center gap-2 rounded-2xl border border-border bg-card p-3 shadow-card">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary/10 text-primary">
-                <t.icon className="h-4 w-4" />
-              </span>
-              <div className="leading-tight">
-                <p className="font-display text-sm font-bold">{t.label}</p>
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{t.sub}</p>
-              </div>
-            </div>
-          ))}
+        {/* Demo-data disclosure — honest, prominent */}
+        <section className="-mt-2 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-3 text-amber-700 dark:text-amber-300">
+          <p className="flex items-start gap-2 text-xs font-medium">
+            <Sparkles className="mt-0.5 h-4 w-4 shrink-0" />
+            <span>
+              <strong className="font-bold">Demo prices.</strong> CheapBite is in preview — all prices, ratings and savings shown are simulated for demonstration. Real partner API integrations are in progress.
+            </span>
+          </p>
         </section>
 
         {recent.length > 0 && (
@@ -175,7 +162,7 @@ function Home() {
           <div className="grid gap-3 sm:grid-cols-4">
             {[
               { icon: Search, title: "Search a dish", body: "Type any food — biryani, momos, dosa." },
-              { icon: ShieldCheck, title: "We compare 15 apps", body: "Item, delivery and platform fees." },
+              { icon: ShieldCheck, title: "We compare 12 apps", body: "Item, delivery and platform fees." },
               { icon: Zap, title: "See the cheapest", body: "Best deal & best value, side by side." },
               { icon: IndianRupee, title: "Save ₹30–₹80/order", body: "Order on the app you already use." },
             ].map((s, i) => (
