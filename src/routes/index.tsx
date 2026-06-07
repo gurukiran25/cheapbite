@@ -42,19 +42,16 @@ function Home() {
         </div>
         <div className="relative mx-auto max-w-6xl px-4 pb-8 pt-10 sm:pt-16">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-            </span>
-            Live prices · made for hostel students
+            <Sparkles className="h-3.5 w-3.5" />
+            Preview · demo prices for now
           </div>
           <h1 className="font-display text-balance text-3xl font-black leading-[1.02] sm:text-5xl">
             Stop overpaying<br />
             <span className="bg-gradient-warm bg-clip-text text-transparent">for food.</span>
           </h1>
           <p className="mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
-            Compare Swiggy, Zomato, EatSure, Domino's & 11 more — instantly. See item price,
-            delivery & platform fees side-by-side. Save ₹30–₹80 every order.
+            Compare Swiggy, Zomato, EatSure, Domino's & more — instantly. See item price,
+            delivery & platform fees side-by-side.
           </p>
           <div className="mt-6 rounded-2xl bg-gradient-warm p-[1.5px] shadow-glow">
             <div className="rounded-[14px] bg-background">
