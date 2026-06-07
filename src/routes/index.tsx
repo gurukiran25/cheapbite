@@ -162,7 +162,7 @@ function Home() {
           <div className="grid gap-3 sm:grid-cols-4">
             {[
               { icon: Search, title: "Search a dish", body: "Type any food — biryani, momos, dosa." },
-              { icon: ShieldCheck, title: "We compare 15 apps", body: "Item, delivery and platform fees." },
+              { icon: ShieldCheck, title: "We compare 12 apps", body: "Item, delivery and platform fees." },
               { icon: Zap, title: "See the cheapest", body: "Best deal & best value, side by side." },
               { icon: IndianRupee, title: "Save ₹30–₹80/order", body: "Order on the app you already use." },
             ].map((s, i) => (
